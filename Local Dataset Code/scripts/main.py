@@ -1,0 +1,91 @@
+from configs import *
+from load_explore_data import *
+from preprocessing import *
+from clustring import *
+from modeling import *
+
+
+def main():
+    print("="*60)
+    print("           STEP 1: LOADING & EXPLORING DATA & Removing Unnecessary Columns")
+    print("="*60)
+    original_data = load_data(DATAPATH)
+    explore_data(original_data)
+    original_data = remove_unnecessary_columns(original_data,['FID', 'Shape', 'FID_1','Area','Block','Profile','Long','Lat'])
+    original_data = feature_engineering(original_data)
+    print("           STEP 3: ELBOW Method")
+    # cluster_features = original_data.select_dtypes(include=['number']).columns.tolist()
+    cluster_features = ['EC', 'SAR', 'CaCO3', 'Gypsum', 'OM','N', 'P', 'K', 'Fe', 'Mn', 'Zn', 'Cu','E_Depth','pH']
+    print(f"Features used for clustering: {cluster_features}")
+    
+    elbow_method(original_data, cluster_features)
+    
+    print("\n" + "="*60)
+    print("           STEP 4: CLUSTERING (Target Generation)")
+    print("="*60)
+    
+    data, kmeans_model, Kmeans_score, centroids = clustering(original_data , cluster_features , k= 3 )
+    
+    print(f"\nClustering Completed! Training Silhouette Score: {Kmeans_score:.4f}")
+    print("\n--- CENTROIDS ---")
+    print(centroids)
+    
+    data = map_clusters(data)
+    
+    print("\n" + "="*60)
+    print("           STEP 5: PREPARE X & y FOR SUPERVISED MODELS")
+    print("="*60)
+    
+    x, y , x_train, x_val, y_train, y_val = split_data(data)
+    
+    print(f"x_train shape: {x_train.shape} | x_val shape: {x_val.shape}")
+    print(f"Target classes: {sorted(y_train.unique())}")
+    
+    print("\n" + "="*60)
+    print("           STEP 6:Preprocessing ")
+    print("="*60)
+    
+    x_train , x_val , encoder,scaler = processing_data(x_train,x_val)
+    
+    print("\n" + "="*60)
+    print("           STEP 8: MODELING & EVALUATION ")
+    print("="*60)
+    
+    # Model 1: Logistic Regression
+    print("\n>>> Training Logistic Regression ...")
+    lr = LogisticRegression(C=0.1)
+    lr_model , lr_model_name =train(lr, "Logistic Regression", x_train, y_train, x_val, y_val)
+    class_report(lr_model, x_val, y_val)
+    plot_confusion_matrix(lr_model, x_val, y_val, lr_model_name)
+    
+    # Model 2: SCV 
+    print("\n>>> Training SVC ...")
+    svc = SVC(C=5, kernel='rbf', gamma='scale',random_state=RANDOM_STATE)
+    svc_model , svc_model_name =train(svc, "SVC", x_train, y_train, x_val, y_val)
+    class_report(svc_model, x_val, y_val)
+    plot_confusion_matrix(svc_model, x_val, y_val, svc_model_name)
+    
+    # Model 3: Random Forest
+    print("\n>>> Training Random Forest Classifier ...")
+    rf = RandomForestClassifier(n_estimators=2,max_depth=5)
+    rf_model , rf_model_name = train(rf, "Random Forest", x_train, y_train, x_val, y_val)
+    class_report(rf_model, x_val, y_val)
+    plot_confusion_matrix(rf, x_val, y_val, rf_model_name)
+    
+        # Model 3: KNN
+    print("\n>>> Training KNN Classifier ...")
+    knn = KNeighborsClassifier()
+    knn_model , knn_model_name = train(knn, "KNN", x_train, y_train, x_val, y_val)
+    class_report(knn_model, x_val, y_val)
+    plot_confusion_matrix(knn_model, x_val, y_val, knn_model_name)
+    
+    print("\n" + "="*60)
+    print("                 PIPELINE FINISHED")
+    print("="*60)
+
+    print("\n>>> Saving the best model pipeline ...")
+    save_model_pipeline(svc_model, svc_model_name, scaler, encoder)
+
+
+if __name__ == "__main__":
+    main()
