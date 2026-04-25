@@ -1,0 +1,12 @@
+>>> Training SVC ...
+SVC score on Training data: 97.73%
+SVC score on Validation data: 97.50%
+                                            precision    recall  f1-score   support
+
+        Low Agricultural Viability Cluster       1.00      0.99      1.00       347
+     High Agricultural Performance Cluster       1.00      0.94      0.97       566
+Balanced Agricultural Productivity Cluster       0.95      1.00      0.97       687
+
+                                  accuracy                           0.97      1600
+                                 macro avg       0.98      0.98      0.98      1600
+                              weighted avg       0.98      0.97      0.97      1600

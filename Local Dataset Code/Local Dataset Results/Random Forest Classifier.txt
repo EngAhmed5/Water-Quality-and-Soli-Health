@@ -1,0 +1,12 @@
+>>> Training Random Forest Classifier ...
+Random Forest score on Training data: 96.93%
+Random Forest score on Validation data: 98.46%
+                                            precision    recall  f1-score   support
+
+        Low Agricultural Viability Cluster       0.99      1.00      1.00       187
+Balanced Agricultural Productivity Cluster       0.97      0.99      0.98       197
+     High Agricultural Performance Cluster       1.00      0.92      0.96        72
+
+                                  accuracy                           0.98       456
+                                 macro avg       0.99      0.97      0.98       456
+                              weighted avg       0.98      0.98      0.98       456

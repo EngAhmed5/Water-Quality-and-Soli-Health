@@ -1,0 +1,12 @@
+>>> Training KNN Classifier ...
+KNN score on Training data: 96.00%
+KNN score on Validation data: 94.96%
+                                            precision    recall  f1-score   support
+
+        Low Agricultural Viability Cluster       0.93      0.99      0.96       187
+Balanced Agricultural Productivity Cluster       0.96      0.93      0.94       197
+     High Agricultural Performance Cluster       0.97      0.90      0.94        72
+
+                                  accuracy                           0.95       456
+                                 macro avg       0.95      0.94      0.95       456
+                              weighted avg       0.95      0.95      0.95       456

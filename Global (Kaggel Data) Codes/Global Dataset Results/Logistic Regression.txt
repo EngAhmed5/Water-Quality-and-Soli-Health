@@ -1,0 +1,12 @@
+>>> Training Logistic Regression ...
+Logistic Regression score on Training data: 98.38%
+Logistic Regression score on Validation data: 98.75%
+                                            precision    recall  f1-score   support
+
+        Low Agricultural Viability Cluster       1.00      1.00      1.00       347
+     High Agricultural Performance Cluster       1.00      0.97      0.98       566
+Balanced Agricultural Productivity Cluster       0.97      1.00      0.99       687
+
+                                  accuracy                           0.99      1600
+                                 macro avg       0.99      0.99      0.99      1600
+                              weighted avg       0.99      0.99      0.99      1600
