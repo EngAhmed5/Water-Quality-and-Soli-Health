@@ -24,4 +24,4 @@ import warnings
 warnings.filterwarnings('ignore')
 
 RANDOM_STATE=42
-DATAPATH = r"D:\Ahmed\Study\Graduation project\codes\data2\data_core.csv"
+DATAPATH = r"D:\Ahmed\Study\Graduation project\codes\Global (Kaggel Data) Codes\data2\data_core.csv"

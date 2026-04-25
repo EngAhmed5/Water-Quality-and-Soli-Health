@@ -49,9 +49,6 @@ def main():
     print("           STEP 7: APPLYING Impulse ")
     print("="*60)
     
-    x_train = apply_sharp_impulse(x_train, level=0.15, type_name='impulse', random_state=RANDOM_STATE)
-    x_val = apply_sharp_impulse(x_val, level=0.15, type_name='impulse', random_state=RANDOM_STATE)
-    
     
     print("\n" + "="*60)
     print("           STEP 8: MODELING & EVALUATION ")
@@ -59,21 +56,21 @@ def main():
     
     # Model 1: Logistic Regression
     print("\n>>> Training Logistic Regression ...")
-    lr = LogisticRegression(random_state=RANDOM_STATE)
+    lr = LogisticRegression(C= 0.01  ,random_state=RANDOM_STATE) # C = 0.01 for better performance and prevent the overfitting 
     lr_model , lr_model_name =train(lr, "Logistic Regression", x_train, y_train, x_val, y_val)
     class_report(lr_model, x_val, y_val)
     plot_confusion_matrix(lr_model, x_val, y_val, lr_model_name)
     
-    # Model 2: SCV 
+    # Model 2: SVM
     print("\n>>> Training SVC ...")
-    svc = SVC(random_state=RANDOM_STATE)
+    svc = SVC(random_state=RANDOM_STATE , C= 0.1) # C = 0.01 for better performance and prevent the overfitting
     svc_model , svc_model_name =train(svc, "SVC", x_train, y_train, x_val, y_val)
     class_report(svc_model, x_val, y_val)
     plot_confusion_matrix(svc_model, x_val, y_val, svc_model_name)
     
     # Model 3: Random Forest
     print("\n>>> Training Random Forest Classifier ...")
-    rf = RandomForestClassifier()
+    rf = RandomForestClassifier(random_state=RANDOM_STATE , n_estimators=2 )    # n_estimators=2 for prevent the overfitting
     rf_model , rf_model_name = train(rf, "Random Forest", x_train, y_train, x_val, y_val)
     class_report(rf_model, x_val, y_val)
     plot_confusion_matrix(rf, x_val, y_val, rf_model_name)

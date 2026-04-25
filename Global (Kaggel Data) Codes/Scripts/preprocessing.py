@@ -31,22 +31,22 @@ def processing_data(x_train , x_val):
     return x_train , x_val , encoder , scaler
 
 
-def apply_sharp_impulse(data, level=0.5, type_name='gaussian', random_state=42): # --------- updated put to review ----------------
-    np.random.seed(random_state)
-    X_array = data.to_numpy()
+# def apply_sharp_impulse(data, level=0.5, type_name='gaussian', random_state=42): # --------- updated put to review ----------------
+#     np.random.seed(random_state)
+#     X_array = data.to_numpy()
     
-    if type_name == 'gaussian':
-        gaussian = np.random.normal(loc=0.0, scale=level, size=X_array.shape)
-        X_array = X_array + gaussian
+#     if type_name == 'gaussian':
+#         gaussian = np.random.normal(loc=0.0, scale=level, size=X_array.shape)
+#         X_array = X_array + gaussian
         
-    elif type_name == 'impulse':
-        X_array = X_array.copy()
-        mask = np.random.rand(*X_array.shape) < level
+#     elif type_name == 'impulse':
+#         X_array = X_array.copy()
+#         mask = np.random.rand(*X_array.shape) < level
         
-        spikes = np.random.choice([-3.0, 3.0], size=X_array.shape)
-        X_array[mask] = spikes[mask]
-    else:
-        raise ValueError(" must be either 'gaussian' or 'impulse'")
+#         spikes = np.random.choice([-3.0, 3.0], size=X_array.shape)
+#         X_array[mask] = spikes[mask]
+#     else:
+#         raise ValueError(" must be either 'gaussian' or 'impulse'")
         
-    X_df = pd.DataFrame(X_array, columns=data.columns, index=data.index)
-    return X_df
+#     X_df = pd.DataFrame(X_array, columns=data.columns, index=data.index)
+#     return X_df
